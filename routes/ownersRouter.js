@@ -23,6 +23,9 @@ router.get('/',(req,res)=>{
     res.send('Owner Router called /')
 })
 
+router.get('/admin',(req,res)=>{
+    res.render('createproducts')
+})
 
 
 module.exports=router;
