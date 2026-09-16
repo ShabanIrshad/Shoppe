@@ -2,12 +2,12 @@ const express=require('express');
 const productModel = require('../models/productModel');
 const userModel = require('../models/userModel');
 const router=express.Router();
-const flash=require('flash');
+const flash=require('connect-flash');
 const isLoggedIn=require('../middleware/isLoggedIn');
 
 
 router.get("/",(req,res)=>{
-    let error=req.flash("error");
+    let error=req.flash("error",'Something went wrong');
     res.render('index',{error,loggedIn:false});
 })
 

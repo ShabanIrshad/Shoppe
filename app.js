@@ -5,7 +5,7 @@ const app=express();
 const db=require('./config/mongoose-connection');
 const ownersRouter=require('./routes/ownersRouter');
 const userRouter=require('./routes/userRouter');
-const flash=require('flash');
+const flash=require('connect-flash');
 const indexRouter=require('./routes/index');
 const expressSession=require('express-session');
 const productsRouter=require('./routes/productsRouter');
@@ -18,7 +18,14 @@ app.use(expressSession({
     saveUninitialized:false,
     secret:process.env.EXPRESS_SESSION_SECRET,
 }))
+
 app.use(flash());
+app.use((req, res, next) => {
+    res.locals.success = req.flash('success');
+    res.locals.error = req.flash('error');
+    next();
+});
+
 app.use(express.static(path.join(__dirname,'public')));
 app.use(express.json());
 app.use(cookieParser());

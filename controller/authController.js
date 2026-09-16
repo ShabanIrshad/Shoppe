@@ -1,23 +1,30 @@
 const userModel=require('../models/userModel');
 const bcrypt=require('bcrypt');
-const flash=require('flash');
+const flash=require('connect-flash');
 const jwt=require('jsonwebtoken');
 const {generateToken}=require('../middleware/generateToken');
 
 module.exports.loginUser=async (req,res)=>{
     let {email,password}=req.body;
     let user=await userModel.findOne({email});
-    if(!user) return res.send('Incorrect Email or Password.');
-    bcrypt.compare(password,user.password,(err,result)=>{
+    if(user){
+         bcrypt.compare(password,user.password,(err,result)=>{
         if(result){
             let token=generateToken(user);
             res.cookie("token",token);
+            req.flash("success",'User Login Successfully!');
+            // res.render('shop',{success:req.flash('success')})
             res.redirect('/shop')
         }else{
-            res.flash('Email Or Password Wrong');
-            res.redirect('/');
+            let error=req.flash('error','Email Or Password Wrong');
+            res.redirect('/',{error});
         }
-    })
+        })
+    } else{
+            req.flash('error','Email Or Password Wrong');
+           return  res.render('index',{error:req.flash('error')});
+    }
+   
 }
 
 module.exports.registerUser=async (req,res)=>{
