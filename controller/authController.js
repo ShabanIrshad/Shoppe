@@ -1,7 +1,5 @@
 const userModel=require('../models/userModel');
 const bcrypt=require('bcrypt');
-const flash=require('connect-flash');
-const jwt=require('jsonwebtoken');
 const {generateToken}=require('../middleware/generateToken');
 
 module.exports.loginUser=async (req,res)=>{
@@ -13,15 +11,18 @@ module.exports.loginUser=async (req,res)=>{
             let token=generateToken(user);
             res.cookie("token",token);
             req.flash("success",'User Login Successfully!');
-            // res.render('shop',{success:req.flash('success')})
             res.redirect('/shop')
         }else{
-            let error=req.flash('error','Email Or Password Wrong');
-            res.redirect('/',{error});
+            console.log('nahi mila')
+            req.flash('error','Password Wrong');
+             return  res.render('index',{error:req.flash('error')});
+            // res.redirect('/');
         }
         })
     } else{
+            
             req.flash('error','Email Or Password Wrong');
+            // res.status(404).redirect('/');
            return  res.render('index',{error:req.flash('error')});
     }
    
@@ -31,10 +32,10 @@ module.exports.registerUser=async (req,res)=>{
     
     try {
          let {email,password,name}=req.body;
-         let presented=await userModel.findOne({email});
-         if(presented){
-            res.status(404).send('Already user present!')
-         }
+        //  let presented=await userModel.findOne({email});
+        //  if(presented){
+        //     return res.status(404).send('Already user present!')
+        //  }
          bcrypt.genSalt(10,(err,salt)=>{
             bcrypt.hash(password,salt,async (err,result)=>{
                 if(err) return res.send(err.message);
@@ -46,8 +47,9 @@ module.exports.registerUser=async (req,res)=>{
                     })
                     let token=generateToken(user)
                     res.cookie("token",token);
-                    console.log(user);
-                    res.send("User Created!");
+                    req.flash('success','User Login Successfully !');
+                    res.redirect('/shop');
+                    // res.send("User Created!");
                 }
             })
          })
