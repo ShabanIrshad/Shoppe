@@ -1,4 +1,5 @@
 const ownerModel=require('../models/ownerModel');
+const userModel=require('../models/userModel');
 
 const createAdmin=(req,res)=>{
     console.log('create Admin Called')
@@ -6,16 +7,14 @@ const createAdmin=(req,res)=>{
 }
 
 const registerAdmin=async (req,res)=>{
-    let owners=await ownerModel.find();
-    if(owners.length>0){
-        return res.status(503).send('You are not permitted to creating user!')
-    }
-    let {name,email,password}=req.body;
-    console.log(req.body);
+    let {name,email,password,gstin}=req.body;   
     let owner=await ownerModel.create({
         name,
         email,
         password,
+        gstin,
+        picture:req.file.buffer,
+        
     })
         res.status(201).send(owner);
 }

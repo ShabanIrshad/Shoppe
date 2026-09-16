@@ -13,7 +13,7 @@ const ownerSchema=mongoose.Schema({
         default:[],
     } ,
     gstin:String,
-    picture:String,
+    picture:Buffer,
 
 });
 
