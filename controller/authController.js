@@ -1,21 +1,26 @@
 const userModel=require('../models/userModel');
+const ownerModel=require('../models/ownerModel');
+const productModel=require('../models/productModel');
 const bcrypt=require('bcrypt');
 const {generateToken}=require('../middleware/generateToken');
 
 module.exports.loginUser=async (req,res)=>{
     let {email,password}=req.body;
     let user=await userModel.findOne({email});
-    if(user){
-         bcrypt.compare(password,user.password,(err,result)=>{
+    let owner=await ownerModel.findOne({email});
+    let products=await productModel.find();
+    let putPassword=user?user.password:owner.password;
+    let putProfile=user?user:owner;
+    if(putPassword){
+         bcrypt.compare(password,putPassword,(err,result)=>{
         if(result){
-            let token=generateToken(user);
+            let token=generateToken(putProfile);
             res.cookie("token",token);
-            req.flash("success",'User Login Successfully!');
-            res.redirect('/shop')
+            req.flash("success",`${user?'User':'Admin'} Login Successfully!`);
+            res.render('shop',{owner:owner,products})
         }else{
-            console.log('nahi mila')
             req.flash('error','Password Wrong');
-             return  res.render('index',{error:req.flash('error')});
+             return  res.render('index',{error:req.flash('error'),loggedIn:false});
             // res.redirect('/');
         }
         })
@@ -23,7 +28,7 @@ module.exports.loginUser=async (req,res)=>{
             
             req.flash('error','Email Or Password Wrong');
             // res.status(404).redirect('/');
-           return  res.render('index',{error:req.flash('error')});
+           return  res.render('index',{error:req.flash('error'),loggedIn:false});
     }
    
 }

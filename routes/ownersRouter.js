@@ -10,14 +10,8 @@ router.post('/create',upload.single('avatar'),checkAdmin,registerAdmin)
 
 router.get('/create',createAdmin);
 
-router.get('/',(req,res)=>{
-    res.send('Owner Router called /')
-})
 
-router.get('/admin',(req,res)=>{
-    let success=req.flash('success');
-    res.render('createproducts',{success})
-})
+
 
 
 module.exports=router;

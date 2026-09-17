@@ -8,7 +8,7 @@ const checkAdmin=async (req,res,next)=>{
     let user=await userModel.find({email});
     if(user.length>0 || owner.length>0){
         req.flash('error','Email Already Exists!');        
-        return res.render('createAdmin',{error:req.flash('error')});
+        return res.render('createAdmin',{error:req.flash('error'),loggedIn:false});
        
     }else{
         next();

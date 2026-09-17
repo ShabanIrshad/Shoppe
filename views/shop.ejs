@@ -6,8 +6,10 @@
             </span>
         </div>
         <% } %>
-    <div class="w-full h-screen flex items-start px-20 py-20">
-        <div class="w-[25%] flex h-screen flex-col items-start">
+        <!-- <a href="" class="" >Create Products</a> -->
+    <div class="w-full h-screen border border-blue-600 flex items-start">
+        
+        <div class="w-[16%] border border-zinc-300 p-5 flex h-screen flex-col items-start">
             <div class="flex items-center gap-2">
                 <h3>sort by</h3>
                 <form action="/shop">
@@ -16,7 +18,14 @@
                         <option value="newest">Newest</option>
                     </select>
                 </form>
+                
             </div>
+            <% if(owner){ %>
+                 <div class="flex flex-col mt-5 ">
+                     <a class="block w-fit mb-2 bg-zinc-200 px-5 py-2 hover:text-blue-400" href="/products/create">Create Product</a>               
+                 </div>
+            <% } %>
+            
             <div class="flex flex-col mt-20">
                 <a class="block w-fit mb-2" href="">New Collection</a>
                 <a class="block w-fit mb-2" href="">All Products</a>
@@ -28,7 +37,7 @@
                 <a class="block w-fit mb-2" href="">Discount</a>
             </div>
         </div>
-        <div class="w-[75%] flex flex-col gap-5 h-screen">
+        <div class="w-[80%] flex border border-green-400 flex-col gap-5 h-screen">
             <div class="flex items-start gap-5">
                 <% products.forEach(function(product){ %>
                     <div class="w-60">

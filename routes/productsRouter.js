@@ -23,4 +23,10 @@ router.post('/create',upload.single('image'),async (req,res)=>{
    
 })
 
+router.get('/create',(req,res)=>{
+    
+    let success=req.flash('success');
+    res.render('createproducts',{success})
+});
+
 module.exports=router;

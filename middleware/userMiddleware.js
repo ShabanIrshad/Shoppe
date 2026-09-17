@@ -1,5 +1,6 @@
 
 const userModel=require('../models/userModel');
+const ownerModel=require('../models/ownerModel');
 
 const checkRegister=async (req,res,next)=>{
     let {email,password,name}=req.body;
@@ -22,9 +23,15 @@ const checkRegister=async (req,res,next)=>{
 
 const checkUser=async (req,res,next)=>{
     let {email,password}=req.body;
-   
+    let user=await userModel.findOne({email});
+    let owner=await ownerModel.findOne({email})
+    let account=user||owner?true:false;
+    
     if(email.trim()==='' || password.trim()===''){
         req.flash('error','Please fill required fields.');        
+        return res.render('index',{error:req.flash('error'),loggedIn:false});    
+    }else if(!account){
+        req.flash('error','Account not found !');        
         return res.render('index',{error:req.flash('error'),loggedIn:false});
     }else{
         next();
