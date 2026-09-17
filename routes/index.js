@@ -1,6 +1,7 @@
 const express=require('express');
 const productModel = require('../models/productModel');
 const userModel = require('../models/userModel');
+const ownerModel=require('../models/ownerModel');
 const router=express.Router();
 const flash=require('connect-flash');
 const isLoggedIn=require('../middleware/isLoggedIn');
@@ -13,8 +14,9 @@ router.get("/",(req,res)=>{
 
 router.get('/shop',isLoggedIn,async (req,res)=>{
     let products =await productModel.find();
+    let owner=await ownerModel.findOne({email:req.user.email});
     req.flash('success');
-    res.render('shop',{products});
+    res.render('shop',{products,owner});
 })
 
 router.get('/cart',isLoggedIn,async (req,res)=>{
