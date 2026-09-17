@@ -12,7 +12,7 @@ const createProduct=async (req,res)=>{
             textcolor,
         })
         req.flash('success',' Product created !')
-        res.redirect('/products/create'); 
+        res.redirect('/shop'); 
     } catch (error) {
         res.send(error.message);
     }

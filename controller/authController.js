@@ -11,13 +11,14 @@ module.exports.loginUser=async (req,res)=>{
     let products=await productModel.find();
     let putPassword=user?user.password:owner.password;
     let putProfile=user?user:owner;
+
     if(putPassword){
          bcrypt.compare(password,putPassword,(err,result)=>{
         if(result){
             let token=generateToken(putProfile);
             res.cookie("token",token);
             req.flash("success",`${user?'User':'Admin'} Login Successfully!`);
-            res.render('shop',{owner:owner,products})
+            res.redirect('/shop');
         }else{
             req.flash('error','Password Wrong');
              return  res.render('index',{error:req.flash('error'),loggedIn:false});
@@ -37,10 +38,7 @@ module.exports.registerUser=async (req,res)=>{
     
     try {
          let {email,password,name}=req.body;
-        //  let presented=await userModel.findOne({email});
-        //  if(presented){
-        //     return res.status(404).send('Already user present!')
-        //  }
+
          bcrypt.genSalt(10,(err,salt)=>{
             bcrypt.hash(password,salt,async (err,result)=>{
                 if(err) return res.send(err.message);
