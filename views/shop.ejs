@@ -20,13 +20,10 @@
                 </form>
                 
             </div>
-            <% if(owner){ %>
-                 <div class="flex flex-col mt-5 ">
-                     <a class="block w-fit mb-2 bg-zinc-200 px-5 py-2 hover:text-blue-400" href="/products/create">Create Product</a>               
-                 </div>
-            <% } %>
-            
             <div class="flex flex-col mt-20">
+                 <% if(owner){ %>
+                    <a class="block w-fit mb-2" href="/products/create">Edit Products</a>
+                 <% } %>
                 <a class="block w-fit mb-2" href="">New Collection</a>
                 <a class="block w-fit mb-2" href="">All Products</a>
                 <a class="block w-fit mb-2" href="">Discounted Products</a>
@@ -47,20 +44,30 @@
                         </div>
                         <div
                             class="flex justify-between bg-[<%= product.panelcolor %>] items-center px-4 py-4 text-[<%= product.textcolor %>]">
-                            <div>
-                                <h3>
+                            <div >
+                                <h3 class="font-bold text-xl">
                                     <%= product.name %>
                                 </h3>
-                                <h4>₹ <%= product.price %>
-                                </h4>
+                                <div class="flex" >
+                                     <h4 class="font-bold <%= (product.discount>0)? 'line-through':'' %>">₹ <%= product.price %> </h4>
+                                    <% if(product.discount>0){ %>
+                                        <h4 class="px-2 mx-2 font-bold bg-[#85E695] rounded-md border border-[#20A837] text-[#0B661A]"><%= (product.price-product.discount) %></h4>
+                                    <% } %>
+                                </div>
+                               
+                                    
+                                
+                                
                             </div>
                             <a class="w-7 h-7 flex items-center justify-center rounded-full bg-white" href="/addtocart/<%=product._id %>">
                                 <i class="ri-add-line"></i>
                             </a>
                         </div>
+                         <% if(owner){ %>
                         <div class="text-center bg-red-400">
                             <a href="/products/delete">Delete</a>
                         </div>
+                        <%}%>
                     </div>
                     <% }) %>
             </div>

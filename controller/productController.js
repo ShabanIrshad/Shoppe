@@ -1,7 +1,8 @@
 const productModel=require('../models/productModel');
 const createProduct=async (req,res)=>{
      try {
-        let {name,price,discount,bgcolor,panelcolor,textcolor}=req.body;
+        let {name,price,discount,bgcolor,panelcolor,textcolor,rating}=req.body;
+        console.log(req.body);
         let product=await productModel.create({
             image:req.file.buffer,
             name,
@@ -10,6 +11,7 @@ const createProduct=async (req,res)=>{
             bgcolor,
             panelcolor,
             textcolor,
+            rating,
         })
         req.flash('success',' Product created !')
         res.redirect('/shop'); 
