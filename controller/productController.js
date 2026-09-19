@@ -1,8 +1,10 @@
 const productModel=require('../models/productModel');
+const userModel=require('../models/userModel');
+const ownerModel=require('../models/ownerModel');
+
 const createProduct=async (req,res)=>{
      try {
-        let {name,price,discount,bgcolor,panelcolor,textcolor,rating}=req.body;
-        console.log(req.body);
+        let {name,price,discount,bgcolor,panelcolor,textcolor,rating,stock}=req.body;
         let product=await productModel.create({
             image:req.file.buffer,
             name,
@@ -12,6 +14,7 @@ const createProduct=async (req,res)=>{
             panelcolor,
             textcolor,
             rating,
+            stock,
         })
         req.flash('success',' Product created !')
         res.redirect('/shop'); 
@@ -19,6 +22,23 @@ const createProduct=async (req,res)=>{
         res.send(error.message);
     }
 }
+
+const discountedProducts=async (req,res)=>{
+    let products=await productModel.find({
+        discount:{$gt:0}
+    })
+    let owner=await ownerModel.findOne({email:req.user.email});
+    res.render('shop',{products,owner});
+}
+
+const newCollection=async (req,res)=>{
+    let products=await productModel.find().sort({Date:-1})
+    let owner=await ownerModel.findOne({email:req.user.email});
+    res.render('shop',{products,owner:owner});
+}
+
 module.exports={
     createProduct,
+    discountedProducts,
+    newCollection,
 }

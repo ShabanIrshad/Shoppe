@@ -12,7 +12,18 @@ const productSchema=mongoose.Schema({
     bgcolor:String,
     panelcolor:String,
     textcolor:String,
-    rating:Number,
+    rating:{
+      type:Number,
+      default:0,
+    },
+    stock:{
+      type:Number,
+      default:0,
+    },
+    Date:{
+      type:Date,
+      default:Date(),
+    }
 });
 
 module.exports=mongoose.model('product',productSchema);

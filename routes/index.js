@@ -19,6 +19,28 @@ router.get('/shop',isLoggedIn,async (req,res)=>{
     res.render('shop',{products,owner});
 })
 
+router.get('/sortby',isLoggedIn,async (req,res)=>{   
+    let selected=req.query.sortby;
+    console.log(selected);
+    if(selected=='newest'){
+        res.redirect('/products/newcollection');
+    }else if(selected=='popular'){
+        let products =await productModel.find({
+            rating:{$gt:4}
+        });
+        console.log(products,"-------");
+        let owner=await ownerModel.findOne({email:req.user.email});
+        res.render('shop',{products,owner});
+    }else{
+         let products =await productModel.find();
+        // console.log(products,"-------");
+        let owner=await ownerModel.findOne({email:req.user.email});
+        res.render('shop',{products,owner});
+    }
+    
+
+})
+
 router.get('/cart',isLoggedIn,async (req,res)=>{
     let user=await userModel.findOne({email:req.user.email}).populate('cart');
     console.log(user);
