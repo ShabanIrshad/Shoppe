@@ -4,6 +4,7 @@ const ownerModel=require('../models/ownerModel');
 
 const createProduct=async (req,res)=>{
      try {
+        let owner=await ownerModel.findOne({email:req.user.email});
         let {name,price,discount,bgcolor,panelcolor,textcolor,rating,stock}=req.body;
         let product=await productModel.create({
             image:req.file.buffer,
@@ -16,6 +17,7 @@ const createProduct=async (req,res)=>{
             rating,
             stock,
         })
+        owner.products.push(product._id);
         req.flash('success',' Product created !')
         res.redirect('/shop'); 
     } catch (error) {

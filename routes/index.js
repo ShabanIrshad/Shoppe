@@ -68,6 +68,13 @@ router.get('/cart',isLoggedIn,async (req,res)=>{
 })
 
 router.get('/addtocart/:id',isLoggedIn,async (req,res)=>{
+   
+    let owner=await ownerModel.findOne({email:req.user.email});
+    if(owner){
+        req.flash('success','You can not buy products.');
+        res.redirect('/shop');
+        return;
+    }
     let user =await userModel.findOne({email:req.user.email});
     user.cart.push(req.params.id);
     await user.save();
