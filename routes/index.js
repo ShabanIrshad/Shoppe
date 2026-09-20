@@ -41,6 +41,19 @@ router.get('/sortby',isLoggedIn,async (req,res)=>{
 
 })
 
+router.get('/available',isLoggedIn,async (req,res)=>{
+    let products= await productModel.find({stock:{$gt:0}});
+    let owner=await ownerModel.findOne({email:req.user.email});
+    res.render('shop',{products,owner});
+})
+
+router.get('/discounted',isLoggedIn,async (req,res)=>{
+    console.log('got in');
+    let products= await productModel.find().sort({discount:-1});
+    let owner=await ownerModel.findOne({email:req.user.email});
+    res.render('shop',{products,owner});
+})
+
 router.get('/cart',isLoggedIn,async (req,res)=>{
     let user=await userModel.findOne({email:req.user.email}).populate('cart');
     console.log(user);
