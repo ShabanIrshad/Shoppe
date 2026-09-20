@@ -5,6 +5,7 @@ const ownerModel=require('../models/ownerModel');
 const router=express.Router();
 const flash=require('connect-flash');
 const isLoggedIn=require('../middleware/isLoggedIn');
+const countTotal=require('../middleware/countTotal');
 
 
 router.get("/",(req,res)=>{
@@ -56,8 +57,13 @@ router.get('/discounted',isLoggedIn,async (req,res)=>{
 
 router.get('/cart',isLoggedIn,async (req,res)=>{
     let user=await userModel.findOne({email:req.user.email}).populate('cart');
-    console.log(user);
-    let total=Number(user.cart[0].price+20-user.cart[0].discout);
+    let owner=await ownerModel.findOne({email:req.user.email});
+    if(owner){
+        req.flash('success','You can not buy products.');
+        res.redirect('/shop');
+        return;
+    }
+    let total=Number(countTotal(user.cart));
     res.render('cart',{user,total});
 })
 
@@ -65,7 +71,7 @@ router.get('/addtocart/:id',isLoggedIn,async (req,res)=>{
     let user =await userModel.findOne({email:req.user.email});
     user.cart.push(req.params.id);
     await user.save();
-    res.flash('success','Added to Cart!');
+    req.flash('success','Added to Cart!');
     res.redirect('/shop');
 })
 
