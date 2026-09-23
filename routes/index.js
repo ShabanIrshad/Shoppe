@@ -67,6 +67,8 @@ router.get('/cart',isLoggedIn,async (req,res)=>{
     res.render('cart',{user,total});
 })
 
+router.get
+
 router.get('/addtocart/:id',isLoggedIn,async (req,res)=>{
    
     let owner=await ownerModel.findOne({email:req.user.email});

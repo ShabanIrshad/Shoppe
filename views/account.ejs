@@ -1,7 +1,40 @@
 <%- include('./partials/header') %>
 
-<div class="h-[100%] w-[100%] bg-zinc-200 ">
-
+<div class="h-screen flex justify-center bg-zinc-100">
+    <div class="border flex border-blue-500 h-[100%] w-[80%]">
+        <div class="border border-red-500 w-[30%]">
+            <div class="w-[150px]  h-[150px] rounded-[50%] bg-white m-auto mt-2 shadow-md">
+               <% if (profile.picture) { %>
+                    <img class="rounded-[50%]" src="data:image/png;base64,<%= profile.picture.toString('base64') %>" />
+                <% } else { %>
+                    <img class="rounded-[50%]" src="/images/boy.png" />
+                <% } %>
+            </div>
+            <p class="m-auto text-center mt-3"><%= profile.email %></p>
+            <div class="bg-white h-[80px] m-2 shadow-md p-3">
+                <p>Hello,</p>
+                <p class="text-xl m-2 font-bold"><%= profile.name.toUpperCase() %></p>
+            </div>
+             <div class="bg-white h-[40px] m-1 shadow-md p-2">
+               <h3>ACCOUNT SETTINGS</h3>
+            </div>
+              <div class="bg-white h-[40px] m-1 shadow-md p-2">
+               <h3>PAYMENTS</h3>
+            </div>
+              <div class="bg-white h-[40px] m-1 shadow-md p-2">
+               <h3>MY STUFFS</h3>
+            </div>
+             <div class="bg-white h-[40px] m-1 shadow-md p-2">
+               <h3><%= (isAdmin)?'PRODUCTS':'ORDERS' %></h3>
+            </div>
+              <div class="bg-white h-[40px] m-1 shadow-md p-2 hover:shadow-lg hover:font-bold">
+               <a href="/users/logout"><h3>LOGOUT</h3></a>
+            </div>
+        </div>
+        <div class="border border-pink-500 w-[70%] bg-white p-3">
+            <h3 class="text-3xl text-center font-bold">Your <%= (isAdmin)?'Proucts':'Orders' %></h3>
+        </div>
+    </div>
 </div>
 
 <%- include('./partials/footer') %>

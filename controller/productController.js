@@ -18,6 +18,7 @@ const createProduct=async (req,res)=>{
             stock,
         })
         owner.products.push(product._id);
+        owner.save();
         req.flash('success',' Product created !')
         res.redirect('/shop'); 
     } catch (error) {
