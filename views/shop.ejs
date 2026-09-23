@@ -35,21 +35,21 @@
                 <a class="block w-fit mb-2" href="/discounted">Discount</a>
             </div>
         </div>
-        <div class="w-[83%] flex flex-col p-2 gap-5 h-screen">    
+        <div class="w-[83%] flex flex-col p-2 gap-5 ">    
             <% if(products.length==0){ %>
                 <div>
                     <h3 class="text-center text-3xl font-bold">No Products added yet!</h3>
                 </div>
              <% } %>         
-            <div class="grid grid-cols-5 gap-3  border border-zinc-400 <%= products.length==0?'hidden':'' %> rounded-md p-2 h-auto w-[100%] gap-3">
+            <div class="grid grid-cols-5 gap-3 mb-3 border border-zinc-400 <%= products.length==0?'hidden':'' %> rounded-md p-2 h-auto w-[100%] gap-3">
                
                 <% products.forEach(function(product){ %>
                     <div class="w-full">
                         <div class="w-full h-52 flex items-center justify-center bg-[<%= product.bgcolor %>]">
-                            <img class="h-[12rem]" src="data:image/jpeg;base64,<%= product.image.toString('base64') %>"
+                            <img class="h-[12rem] overflow-hidden" src="data:image/jpeg;base64,<%= product.image.toString('base64') %>"
                                 alt="">
                                 <% if(owner){ %>
-                                     <h5 class="relative left-6 bottom-20 bg-white px-2 font-bold rounded-full <%= product.stock <= 1 ? 'text-red-500' : 'text-black' %>">
+                                     <h5 class="relative left-2 bottom-20 bg-white px-2 font-bold rounded-full <%= product.stock <= 1 ? 'text-red-500' : 'text-black' %>">
                                     <%= product.stock %>
                                 </h5>
                                 <% } %>

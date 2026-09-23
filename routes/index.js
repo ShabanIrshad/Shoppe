@@ -67,7 +67,17 @@ router.get('/cart',isLoggedIn,async (req,res)=>{
     res.render('cart',{user,total});
 })
 
-router.get
+router.get('/order/:email',async (req,res)=>{
+     let user=await userModel.findOne({email:req.params.email});
+     let cartItems=await userModel.find({email:req.params.email}).populate('cart');
+    //  console.log(user.cart);
+     user.orders=user.cart;
+     user.cart=[];
+     user.save();
+     req.flash('success','Order Created Successfully');
+     res.redirect('/cart');
+
+})
 
 router.get('/addtocart/:id',isLoggedIn,async (req,res)=>{
    

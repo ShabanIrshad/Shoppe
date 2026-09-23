@@ -1,4 +1,17 @@
 <%- include('./partials/header') %>
+ <% if(success.length> 0){ %>
+        <div id="flashMessage"
+            class="absolute top-5 left-1/2 -translate-x-1/2 -translate-y-1/2 p-3 rounded-md bg-green-500">
+            <span class="inline-block mt-1 mb-1 text-white">
+                <%= success %>
+            </span>
+        </div>
+        <% } %>
+        <% if(user.cart.length==0){ %>
+            <div class="h-[80%] flex justify-center items-center">
+                <img src="/images/empty.png" alt="image"/>
+            </div>    
+       <% } %>
     <% user.cart.forEach((item)=>{ %>
         <hr>
          <div class="w-full h-[50%] flex items-start px-20 py-10 gap-5">
@@ -49,7 +62,11 @@
     </div>
     
     <% }) %>
-    <div class="flex justify-end mb-10">
+     <% if(user.cart.length==0){ %>
+            <div></div>
+               
+       <% }else{ %>
+            <div class="flex justify-end mb-10">
         <div class="w-[40%] mr-20 p-10">
             <div class="flex justify-between">
                 <h3 class="font-bold text-xl">Platform Fee</h3>
@@ -68,12 +85,28 @@
                 <h3 class="font-bold text-xl">Total Amount</h3>
                 <h3 class="font-semibold text-xl text-green-600">₹ <%=total%></h3>
             </div>
-             <form action="/order/<%=user.email%>" class=" flex justify-center mt-5">
+             <form action="/order/<%=user.email%>" method="get" class=" flex justify-center mt-5">
                  <button class="text-white bg-blue-400 p-5 font-bold text-2xl rounded-lg shadow-md hover:shadow-xl 
                transition-shadow duration-300">Order Now</button>
              </form>
          </div>
          
     </div>
+       <% } %>
+    
+     <script>
+                setTimeout(() => {
+                    const flash = document.getElementById('flashMessage');
+
+                    if (flash) {
+                        flash.style.transition = 'opacity 0.5s ease';
+                        flash.style.opacity = '0';
+
+                        setTimeout(() => {
+                            flash.remove();
+                        }, 500);
+                    }
+                }, 3000);
+            </script>
    
     <%- include('./partials/footer') %>

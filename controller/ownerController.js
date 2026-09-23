@@ -4,7 +4,6 @@ const {generateToken}=require('../middleware/generateToken');
 const bcrypt=require('bcrypt');
 
 const createAdmin=(req,res)=>{
-    console.log('create Admin Called')
     req.flash('error',"");
     res.render('createAdmin',{error:req.flash('error'),loggedIn:false});
 }
@@ -32,10 +31,6 @@ const registerAdmin=async (req,res)=>{
             }
         })
     })
-    
-    req.flash('error','Owner Created Successfully !');
-    res.render('index',{error:req.flash('error'),loggedIn:false});
-    // res.status(201).redirect('/');
 }
 
 module.exports={

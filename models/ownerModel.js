@@ -9,8 +9,8 @@ const ownerSchema=mongoose.Schema({
     email:String,
     password:String,  
     products:{
-        type:Array,
-        default:[],
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'products',
     } ,
     gstin:String,
     picture:Buffer,

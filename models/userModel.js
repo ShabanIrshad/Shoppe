@@ -10,8 +10,8 @@ const userSchema=mongoose.Schema({
         ref:'product',
     }],
     orders:{
-        type:Array,
-        default:[],
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'product',
     },
     contact:Number,
     picture:String,
