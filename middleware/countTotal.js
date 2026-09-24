@@ -6,6 +6,6 @@ module.exports=countTotal=(cart)=>{
         total+=cart[i].price;
         total-=cart[i].discount;
     }
-    total+=20 //Shipping fee
+    total+=542; //Shipping fee
     return total
 }

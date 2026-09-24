@@ -15,28 +15,31 @@ router.get("/",(req,res)=>{
 
 router.get('/shop',isLoggedIn,async (req,res)=>{
     let products =await productModel.find();
-    let owner=await ownerModel.findOne({email:req.user.email});
+    let owner=await ownerModel.findOne({email:req.user.email});    
+    let user=await userModel.findOne({email:req.user.email});
+    let cart=user.cart.length||0;
+    let profile=user||owner;
     req.flash('success');
-    res.render('shop',{products,owner});
+    res.render('shop',{products,owner,profile,cart});
 })
 
 router.get('/sortby',isLoggedIn,async (req,res)=>{   
     let selected=req.query.sortby;
-    console.log(selected);
+    let user=await userModel.findOne({email:req.user.email});
+    let cart=user.cart.length||0;
+    let profile=user||owner;
     if(selected=='newest'){
         res.redirect('/products/newcollection');
     }else if(selected=='popular'){
         let products =await productModel.find({
             rating:{$gt:4}
         });
-        console.log(products,"-------");
         let owner=await ownerModel.findOne({email:req.user.email});
-        res.render('shop',{products,owner});
+        res.render('shop',{products,owner,profile,cart});
     }else{
          let products =await productModel.find();
-        // console.log(products,"-------");
         let owner=await ownerModel.findOne({email:req.user.email});
-        res.render('shop',{products,owner});
+        res.render('shop',{products,owner,profile,cart});
     }
     
 
@@ -45,14 +48,19 @@ router.get('/sortby',isLoggedIn,async (req,res)=>{
 router.get('/available',isLoggedIn,async (req,res)=>{
     let products= await productModel.find({stock:{$gt:0}});
     let owner=await ownerModel.findOne({email:req.user.email});
-    res.render('shop',{products,owner});
+    let user=await userModel.findOne({email:req.user.email});
+    let cart=user.cart.length||0;
+    let profile=user||owner;
+    res.render('shop',{products,owner,profile,cart});
 })
 
 router.get('/discounted',isLoggedIn,async (req,res)=>{
-    console.log('got in');
     let products= await productModel.find().sort({discount:-1});
     let owner=await ownerModel.findOne({email:req.user.email});
-    res.render('shop',{products,owner});
+    let user=await userModel.findOne({email:req.user.email});
+    let cart=user.cart.length||0;
+    let profile=user||owner;
+    res.render('shop',{products,owner,profile,cart});
 })
 
 router.get('/cart',isLoggedIn,async (req,res)=>{
@@ -64,13 +72,14 @@ router.get('/cart',isLoggedIn,async (req,res)=>{
         return;
     }
     let total=Number(countTotal(user.cart));
-    res.render('cart',{user,total});
+    let profile=user||owner;
+    let cart=user.cart.length||0;
+    res.render('cart',{user,total,profile,cart});
 })
 
 router.get('/order/:email',async (req,res)=>{
      let user=await userModel.findOne({email:req.params.email});
      let cartItems=await userModel.find({email:req.params.email}).populate('cart');
-    //  console.log(user.cart);
      user.orders=user.cart;
      user.cart=[];
      user.save();
@@ -94,9 +103,6 @@ router.get('/addtocart/:id',isLoggedIn,async (req,res)=>{
     res.redirect('/shop');
 })
 
-router.get('/logout',isLoggedIn,(req,res)=>{
-    res.render('shop');
-})
 
 
 

@@ -1,4 +1,4 @@
-<%- include('./partials/header') %>
+<%- include('./partials/header',{acc:user,active:'cart',cart}) %>
  <% if(success.length> 0){ %>
         <div id="flashMessage"
             class="absolute top-5 left-1/2 -translate-x-1/2 -translate-y-1/2 p-3 rounded-md bg-green-500">

@@ -7,15 +7,15 @@ const userSchema=mongoose.Schema({
     password:String,
     cart:[{
         type:mongoose.Schema.Types.ObjectId,
-        ref:'product',
+        ref:'products',
     }],
-    orders:{
+    orders:[{
         type:mongoose.Schema.Types.ObjectId,
-        ref:'product',
-    },
+        ref:'products',
+    }],
     contact:Number,
     picture:String,
 
 });
 
-module.exports=mongoose.model('user',userSchema);
+module.exports=mongoose.model('users',userSchema);

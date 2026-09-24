@@ -7,9 +7,9 @@ const isLoggedIn=require('../middleware/isLoggedIn');
 router.post('/create',upload.single('image'),isLoggedIn,createProduct)
 
 router.get('/create',isLoggedIn,(req,res)=>{
-    
+    console.log(req.user);
     req.flash('success','');
-    res.render('createproducts',{success:req.flash('success')})
+    res.render('createproducts',{user:req.user,success:req.flash('success')})
 });
 router.get('/discounted',isLoggedIn,discountedProducts);
 

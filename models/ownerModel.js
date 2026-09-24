@@ -8,13 +8,13 @@ const ownerSchema=mongoose.Schema({
     },
     email:String,
     password:String,  
-    products:{
+    products:[{
         type:mongoose.Schema.Types.ObjectId,
         ref:'products',
-    } ,
+    } ],
     gstin:String,
     picture:Buffer,
 
 });
 
-module.exports=mongoose.model('owner',ownerSchema);
+module.exports=mongoose.model('owners',ownerSchema);

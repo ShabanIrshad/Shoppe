@@ -31,13 +31,19 @@ const discountedProducts=async (req,res)=>{
         discount:{$gt:0}
     })
     let owner=await ownerModel.findOne({email:req.user.email});
-    res.render('shop',{products,owner});
+    let user=await userModel.findOne({email:req.user.email});
+    let cart=user.cart.length||0;
+        let profile=user||owner;
+    res.render('shop',{products,owner,profile,cart});
 }
 
 const newCollection=async (req,res)=>{
     let products=await productModel.find().sort({Date:-1})
     let owner=await ownerModel.findOne({email:req.user.email});
-    res.render('shop',{products,owner:owner});
+    let user=await userModel.findOne({email:req.user.email});
+    let cart=user.cart.length||0;
+    let profile=user||owner;
+    res.render('shop',{products,owner:owner,profile,cart});
 }
 
 module.exports={
