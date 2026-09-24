@@ -18,9 +18,9 @@
             <nav class="w-full flex justify-between px-5 py-3">
                 <h3 class="text-3xl text-blue-400 font-bold">Shoppe</h3>
                 <div class="flex items-center gap-5">
-                    <a class="<% (active=='shop')?'font-bold':'' %>" href="/shop">Shop</a>
-                    <a class="<% (active=='cart')?'font-bold':'' %>" href="/cart">Cart<% (cart==0)?'':'<%=cart%>' %></a>
-                    <a class="<% (active=='account')?'font-bold':'' %>" href="/account">My Account</a>
+                    <a class="<%= (active=='shop')?'font-bold underline shadow-md p-2':'' %>" href="/shop">Shop</a>
+                    <a class="<%= (active=='cart')?'font-bold underline shadow-md p2':'' %>" href="/cart">Cart<%= (cart==0)?'':cart %></a>
+                    <a class="<%= (active=='account')?'font-bold underline shadow-md p-2':'' %>" href="/account">My Account</a>
                     <a href="/users/logout" class="text-red-600">Logout</a>
                     <a class="p-2 bg-red-100"><%=acc.name%></a>
                 </div>
