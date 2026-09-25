@@ -17,7 +17,7 @@ router.get('/shop',isLoggedIn,async (req,res)=>{
     let products =await productModel.find();
     let owner=await ownerModel.findOne({email:req.user.email});    
     let user=await userModel.findOne({email:req.user.email});
-    let cart=user.cart.length||0;
+    let cart=(user)?user.cart.length:0;
     let profile=user||owner;
     req.flash('success');
     res.render('shop',{products,owner,profile,cart});
