@@ -26,7 +26,8 @@ router.get('/shop',isLoggedIn,async (req,res)=>{
 router.get('/sortby',isLoggedIn,async (req,res)=>{   
     let selected=req.query.sortby;
     let user=await userModel.findOne({email:req.user.email});
-    let cart=user.cart.length||0;
+     let owner=await ownerModel.findOne({email:req.user.email});
+    let cart=(user)?user.cart.length:0;
     let profile=user||owner;
     if(selected=='newest'){
         res.redirect('/products/newcollection');
@@ -34,12 +35,12 @@ router.get('/sortby',isLoggedIn,async (req,res)=>{
         let products =await productModel.find({
             rating:{$gt:4}
         });
-        let owner=await ownerModel.findOne({email:req.user.email});
+       
         res.render('shop',{products,owner,profile,cart});
     }else{
          let products =await productModel.find();
-        let owner=await ownerModel.findOne({email:req.user.email});
-        res.render('shop',{products,owner,profile,cart});
+         res.redirect('/shop');
+        // res.render('shop',{products,owner,profile,cart});
     }
     
 
@@ -49,7 +50,7 @@ router.get('/available',isLoggedIn,async (req,res)=>{
     let products= await productModel.find({stock:{$gt:0}});
     let owner=await ownerModel.findOne({email:req.user.email});
     let user=await userModel.findOne({email:req.user.email});
-    let cart=user.cart.length||0;
+    let cart=(user)?user.cart.length:0;
     let profile=user||owner;
     res.render('shop',{products,owner,profile,cart});
 })
@@ -58,7 +59,7 @@ router.get('/discounted',isLoggedIn,async (req,res)=>{
     let products= await productModel.find().sort({discount:-1});
     let owner=await ownerModel.findOne({email:req.user.email});
     let user=await userModel.findOne({email:req.user.email});
-    let cart=user.cart.length||0;
+   let cart=(user)?user.cart.length:0;
     let profile=user||owner;
     res.render('shop',{products,owner,profile,cart});
 })
@@ -73,7 +74,7 @@ router.get('/cart',isLoggedIn,async (req,res)=>{
     }
     let total=Number(countTotal(user.cart));
     let profile=user||owner;
-    let cart=user.cart.length||0;
+    let cart=(user)?user.cart.length:0;
     res.render('cart',{user,total,profile,cart});
 })
 

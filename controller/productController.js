@@ -32,16 +32,24 @@ const discountedProducts=async (req,res)=>{
     })
     let owner=await ownerModel.findOne({email:req.user.email});
     let user=await userModel.findOne({email:req.user.email});
-    let cart=user.cart.length||0;
+   let cart=(user)?user.cart.length:0;
         let profile=user||owner;
     res.render('shop',{products,owner,profile,cart});
 }
+
+const deleteItem=async (req,res)=>{
+    let {id}=req.params;
+    let product=await productModel.findByIdAndDelete(id);
+    req.flash('success','Product Deleted !')
+    res.redirect('/shop');
+}
+
 
 const newCollection=async (req,res)=>{
     let products=await productModel.find().sort({Date:-1})
     let owner=await ownerModel.findOne({email:req.user.email});
     let user=await userModel.findOne({email:req.user.email});
-    let cart=user.cart.length||0;
+    let cart=(user)?user.cart.length:0;
     let profile=user||owner;
     res.render('shop',{products,owner:owner,profile,cart});
 }
@@ -50,4 +58,5 @@ module.exports={
     createProduct,
     discountedProducts,
     newCollection,
+    deleteItem,
 }
