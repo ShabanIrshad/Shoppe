@@ -8,7 +8,6 @@ const checkBeforeDelete=require('../middleware/checkBeforeDelete');
 router.post('/create',upload.single('image'),isLoggedIn,createProduct)
 
 router.get('/create',isLoggedIn,(req,res)=>{
-    console.log(req.user);
     req.flash('success','');
     res.render('createproducts',{user:req.user,success:req.flash('success')})
 });

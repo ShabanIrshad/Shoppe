@@ -9,7 +9,7 @@ const ownerModel=require('../models/ownerModel');
 
     if (!hasProduct) {
         req.flash('success','You are not Authorized!');
-        return res.status(403).json({ message: "Product does not belong to this owner." });
+        return res.redirect('/shop');
     }
 
     next();

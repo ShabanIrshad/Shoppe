@@ -65,6 +65,5 @@ module.exports.registerUser=async (req,res)=>{
 module.exports.logout=(req,res)=>{
     
     res.clearCookie("token");
-    console.log('logout')
     res.redirect('/');
 }
