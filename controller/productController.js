@@ -39,6 +39,12 @@ const discountedProducts=async (req,res)=>{
 
 const deleteItem=async (req,res)=>{
     let {id}=req.params;
+    //deleting from user/owner docs let admindProducts=req.user.products;
+    let filtered=req.user.products.filter(product=>product.toString()!==id);
+    req.user.products=filtered;
+    await req.user.save();
+    
+    //deleting from products collection
     let product=await productModel.findByIdAndDelete(id);
     req.flash('success','Product Deleted !')
     res.redirect('/shop');
