@@ -2,7 +2,6 @@ const cookieParser = require('cookie-parser');
 const express=require('express');
 const path=require('path');
 const app=express();
-const db=require('./config/mongoose-connection');
 const ownersRouter=require('./routes/ownersRouter');
 const userRouter=require('./routes/userRouter');
 const flash=require('connect-flash');
