@@ -1,108 +1,283 @@
 <%- include('./partials/header',{acc:profile,active:'shop',cart}) %>
+
 <% if(success.length>0){ %>
-        <div id="flashMessage" class="absolute top-8 left-1/2 -translate-x-1/2 -translate-y-1/2 p-3 rounded-md bg-blue-500">
-            <span class="inline-block mt-1 mb-1 text-white">
-                <%= success %>
-            </span>
-        </div>
-        <% } %>
-        <!-- <a href="" class="" >Create Products</a> -->
-    <div class="w-full flex items-start">
-        
-        <div class="w-[16%] p-5 flex h-screen flex-col items-start">
-            <div class="flex items-center gap-2">
-                <h3>sort by</h3>
+<div id="flashMessage"
+    class="fixed top-20 left-1/2 -translate-x-1/2 bg-blue-500 text-white px-5 py-3 rounded-lg shadow-lg z-50">
+    <%= success %>
+</div>
+<% } %>
+
+<div class="max-w-7xl mx-auto px-4 py-5">
+
+    <!-- Mobile Filter Button -->
+    <div class="lg:hidden mb-4">
+        <button id="filterBtn"
+            class="w-full bg-white border rounded-xl px-4 py-3 shadow flex items-center justify-between">
+            <span class="font-semibold">Filters & Categories</span>
+            <i class="ri-menu-line text-xl"></i>
+        </button>
+    </div>
+
+    <div class="flex flex-col lg:flex-row gap-6">
+
+        <!-- Sidebar -->
+        <aside id="sidebar"
+            class="hidden lg:block lg:w-64 bg-white rounded-2xl shadow-md p-5 h-fit">
+
+            <!-- Sort -->
+            <div>
+                <h3 class="font-bold mb-3">Sort By</h3>
+
                 <form action="/sortby" method="get">
-                    <select class="border-[1px] px-2 py-1" name="sortby" id="" onchange="this.form.submit()">
-                        <option name="" value="popular">Select</option>
-                        <option name="popular" value="popular">Popular</option>
-                        <option name="newest" value="newest">Newest</option>
+                    <select
+                        class="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-400"
+                        name="sortby"
+                        onchange="this.form.submit()">
+
+                        <option value="popular">Select</option>
+                        <option value="popular">Popular</option>
+                        <option value="newest">Newest</option>
+
                     </select>
                 </form>
-                
             </div>
-            <div class="flex flex-col mt-20">
-                 <% if(owner){ %>
-                    <a class="block w-fit mb-2" href="/products/create">Edit Products</a>
-                 <% } %>
-                <a class="block w-fit mb-2" href="/products/newcollection">New Collection</a>
-                <a class="block w-fit mb-2" href="/shop">All Products</a>
-                <a class="block w-fit mb-2" href="/products/discounted">Discounted Products</a>
+
+            <hr class="my-6">
+
+            <!-- Categories -->
+            <div class="space-y-3">
+
+                <% if(owner){ %>
+                    <a href="/products/create"
+                       class="block hover:text-blue-500">
+                        Edit Products
+                    </a>
+                <% } %>
+
+                <a href="/products/newcollection"
+                   class="block hover:text-blue-500">
+                    New Collection
+                </a>
+
+                <a href="/shop"
+                   class="block hover:text-blue-500">
+                    All Products
+                </a>
+
+                <a href="/products/discounted"
+                   class="block hover:text-blue-500">
+                    Discounted Products
+                </a>
+
             </div>
-            <div class="mt-32">
-                <a class="block w-fit mb-2" href="">Filter by :</a>
-                <a class="block w-fit mb-2" href="/available">Availability</a>
-                <a class="block w-fit mb-2" href="/discounted">Discount</a>
-            </div>
-        </div>
-        <div class="w-[83%] flex flex-col p-2 gap-5 ">    
-            <% if(products.length==0){ %>
-                <div>
-                    <h3 class="text-center text-3xl font-bold">No Products added yet!</h3>
+
+            <hr class="my-6">
+
+            <!-- Filters -->
+            <div>
+
+                <h3 class="font-bold mb-3">Filter By</h3>
+
+                <div class="space-y-3">
+
+                    <a href="/available"
+                       class="block hover:text-blue-500">
+                        Availability
+                    </a>
+
+                    <a href="/discounted"
+                       class="block hover:text-blue-500">
+                        Discount
+                    </a>
+
                 </div>
-             <% } %>         
-            <div class="grid grid-cols-5 gap-3 mb-3 border border-zinc-400 <%= products.length==0?'hidden':'' %> rounded-md p-2 h-auto w-[100%] gap-3">
-               
+
+            </div>
+
+        </aside>
+
+        <!-- Mobile Sidebar -->
+        <div id="mobileSidebar"
+            class="hidden lg:hidden bg-white rounded-2xl shadow-md p-5 mb-4">
+
+            <div class="mb-5">
+
+                <h3 class="font-bold mb-3">Sort By</h3>
+
+                <form action="/sortby" method="get">
+                    <select
+                        class="w-full border rounded-lg px-3 py-2"
+                        name="sortby"
+                        onchange="this.form.submit()">
+
+                        <option value="popular">Select</option>
+                        <option value="popular">Popular</option>
+                        <option value="newest">Newest</option>
+
+                    </select>
+                </form>
+
+            </div>
+
+            <div class="space-y-3">
+
+                <% if(owner){ %>
+                    <a href="/products/create" class="block">Edit Products</a>
+                <% } %>
+
+                <a href="/products/newcollection" class="block">New Collection</a>
+                <a href="/shop" class="block">All Products</a>
+                <a href="/products/discounted" class="block">Discounted Products</a>
+
+                <hr>
+
+                <a href="/available" class="block">Availability</a>
+                <a href="/discounted" class="block">Discount</a>
+
+            </div>
+
+        </div>
+
+        <!-- Products -->
+        <main class="flex-1">
+
+            <% if(products.length==0){ %>
+
+                <div class="bg-white rounded-2xl shadow-md p-10 text-center">
+                    <h3 class="text-3xl font-bold">
+                        No Products Added Yet!
+                    </h3>
+                </div>
+
+            <% } %>
+
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 <%= products.length==0?'hidden':'' %>">
+
                 <% products.forEach(function(product){ %>
-                    <div class="w-full">
-                        <div class="w-full h-52 flex items-center justify-center bg-[<%= product.bgcolor %>]">
-                            <img class="h-[12rem] overflow-hidden" src="data:image/jpeg;base64,<%= product.image.toString('base64') %>"
-                                alt="">
-                                <% if(owner){ %>
-                                     <h5 class="relative left-2 bottom-20 bg-white px-2 font-bold rounded-full <%= product.stock <= 1 ? 'text-red-500' : 'text-black' %>">
-                                    <%= product.stock %>
-                                </h5>
-                                <% } %>
-                               
-                        </div>
-                        <div
-                            class="flex justify-between bg-[<%= product.panelcolor %>] items-center px-4 py-4 text-[<%= product.textcolor %>]">
-                            <div >
-                                <h3 class="font-bold text-xl">
+
+                <div
+                    class="bg-white rounded-2xl overflow-hidden shadow hover:shadow-xl transition duration-300">
+
+                    <!-- Image -->
+                    <div
+                        class="relative aspect-square flex items-center justify-center bg-[<%= product.bgcolor %>] p-4">
+
+                        <img
+                            class="max-h-44 object-contain"
+                            src="data:image/jpeg;base64,<%= product.image.toString('base64') %>"
+                            alt="">
+
+                        <% if(owner){ %>
+
+                        <span
+                            class="absolute top-3 right-3 bg-white px-2 py-1 rounded-full text-xs font-bold shadow <%= product.stock<=1 ? 'text-red-500':'text-black' %>">
+
+                            <%= product.stock %>
+
+                        </span>
+
+                        <% } %>
+
+                    </div>
+
+                    <!-- Product Info -->
+                    <div
+                        class="bg-[<%= product.panelcolor %>] text-[<%= product.textcolor %>] p-4">
+
+                        <div class="flex justify-between items-start">
+
+                            <div>
+
+                                <h3 class="font-bold text-lg leading-tight">
                                     <%= product.name %>
                                 </h3>
-                                <div class="flex" >
-                                     <h4 class="font-bold <%= (product.discount>0)? 'line-through':'' %>">₹ <%= product.price %> </h4>
-                                    <% if(product.discount>0){ %>
-                                        <h4 class="px-2 mx-2 font-bold bg-[#85E695] rounded-md border border-[#20A837] text-[#0B661A]"><%= (product.price-product.discount) %></h4>
-                                    <% } %>
-                                </div>
-                                <div>
-                                    <% if(!product.rating){%>
-                                        <p>0.0⭐</p>
-                                    <% }else{ %>
-                                        <p><%= product.rating %>⭐</p>
-                                    <% } %>
-                                    
-                                </div>
-                               
-                                    
-                                
-                                
-                            </div>
-                            <a class="w-7 h-7 flex items-center justify-center rounded-full bg-white text-black" href="/addtocart/<%=product._id %>">
-                                <i class="ri-add-line"></i>
-                            </a>
-                        </div>
-                         <% if(owner){ %>
-                        <div class="text-center bg-red-400">
-                            <a href="/products/delete/<%= product._id %>">Delete</a>
-                        </div>
-                        <%}%>
-                    </div>
-                    <% }) %>
-                    
-            </div>
-        </div>
-    </div>
-    <script>
-    setTimeout(() => {
-        const flash = document.getElementById('flashMessage');
 
-        if (flash) {
-            flash.style.display = 'none';
-        }
-    }, 3000);
+                                <div class="flex flex-wrap items-center gap-2 mt-2">
+
+                                    <span
+                                        class="font-bold <%= product.discount>0 ? 'line-through':'' %>">
+
+                                        ₹ <%= product.price %>
+
+                                    </span>
+
+                                    <% if(product.discount>0){ %>
+
+                                    <span
+                                        class="px-2 py-1 text-sm font-bold bg-[#85E695] rounded-md border border-[#20A837] text-[#0B661A]">
+
+                                        <%= product.price-product.discount %>
+
+                                    </span>
+
+                                    <% } %>
+
+                                </div>
+
+                                <p class="mt-2 text-sm">
+                                    <%= product.rating || '0.0' %> ⭐
+                                </p>
+
+                            </div>
+
+                            <a
+                                href="/addtocart/<%=product._id%>"
+                                class="w-9 h-9 flex items-center justify-center rounded-full bg-white text-black hover:scale-110 transition">
+
+                                <i class="ri-add-line"></i>
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                    <% if(owner){ %>
+
+                    <div class="bg-red-400 hover:bg-red-500 transition">
+
+                        <a
+                            href="/products/delete/<%= product._id %>"
+                            class="block text-center py-2 text-white font-medium">
+
+                            Delete
+
+                        </a>
+
+                    </div>
+
+                    <% } %>
+
+                </div>
+
+                <% }) %>
+
+            </div>
+
+        </main>
+
+    </div>
+
+</div>
+
+<script>
+setTimeout(() => {
+    const flash = document.getElementById('flashMessage');
+    if (flash) {
+        flash.style.transition = 'opacity 0.5s ease';
+        flash.style.opacity = '0';
+        setTimeout(() => flash.remove(), 500);
+    }
+}, 3000);
+
+const filterBtn = document.getElementById("filterBtn");
+const mobileSidebar = document.getElementById("mobileSidebar");
+
+if(filterBtn){
+    filterBtn.addEventListener("click", () => {
+        mobileSidebar.classList.toggle("hidden");
+    });
+}
 </script>
-    
-    <%- include('./partials/footer') %>
+
+<%- include('./partials/footer') %>

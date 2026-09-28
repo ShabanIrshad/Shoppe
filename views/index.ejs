@@ -1,63 +1,131 @@
 <%- include('./partials/header',{active:'',cart:0}) %>
 
+<% if(error.length>0){ %>
+<div id="flashMessage"
+    class="fixed top-20 left-1/2 -translate-x-1/2 bg-red-500 text-white px-5 py-3 rounded-lg shadow-lg z-50">
+    <%= error %>
+</div>
+<% } %>
 
-    <% if(error.length> 0){ %>
-        <div id="flashMessage"
-            class="absolute top-5 left-1/2 -translate-x-1/2 -translate-y-1/2 p-3 rounded-md bg-red-500">
-            <span class="inline-block mt-1 mb-1 text-white">
-                <%= error %>
-            </span>
-        </div>
-        <% } %>
-            <div class="w-full h-screen flex px-20 ">
-                <div class="w-1/2 flex items-center justify-center h-screen">
-                    <div class="w-full px-32">
-                        <h3 class="text-4xl">welcome to <span class="text-blue-400 font-semibold">Shoppe</span></h3>
-                        <h4 class="text-2xl mb-5">create your account</h4>
-                        <form autocomplete="off" action="/users/register" method="post">
-                            <input
-                                class="bg-zinc-100 block w-full px-3 py-2 border-[1px] rounded-md mb-3 border-zinc-200"
-                                type="text" placeholder="Full Name" name="name">
-                            <input
-                                class="bg-zinc-100 block w-full px-3 py-2 border-[1px] rounded-md mb-3 border-zinc-200"
-                                type="email" placeholder="Email" name="email">
-                            <input
-                                class="bg-zinc-100 block w-full px-3 py-2 border-[1px] rounded-md mb-3 border-zinc-200"
-                                type="password" placeholder="Password" name="password">
-                            <input class="px-5 rounded-full py-3 mt-2 bg-blue-500 text-white" type="submit"
-                                value="Create My Account">
-                        </form>
-                    </div>
-                </div>
-                <div class="w-1/2 flex items-center justify-center h-screen bg-zinc-200">
-                    <div class="w-full px-32 flex flex-col items-center">
-                        <h4 class="text-2xl capitalize mb-5">login your account</h4>
-                        <form autocomplete="off" action="/users/login" class="min-w-[240px] w-[320px]" method="post">
-                            <input
-                                class="block bg-zinc-100 w-full px-3 py-2 border-[1px] rounded-md mb-3 outline-none border-zinc-200"
-                                type="email" placeholder="Email" name="email">
-                            <input
-                                class="block bg-zinc-100 w-full px-3 py-2 border-[1px] rounded-md outline-none mb-3 border-zinc-200"
-                                type="password" placeholder="Password" name="password">
-                            <input class="px-5 block rounded-full py-3 mt-2 bg-blue-500 text-white" type="submit"
-                                value="Login">
-                        </form>
-                        <a class="text-blue-700 underline" href="/owners/create">Create admin account</a>
-                    </div>
-                </div>
+<div class="min-h-screen bg-gray-100 flex items-center py-8">
+
+    <div class="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8">
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 overflow-hidden rounded-3xl shadow-xl bg-white">
+
+            <!-- Signup Section -->
+            <div class="p-8 sm:p-10 lg:p-14 bg-white">
+
+                <h3 class="text-3xl sm:text-4xl font-light leading-tight">
+                    Welcome to
+                    <span class="text-blue-500 font-semibold">Shoppe</span>
+                </h3>
+
+                <h4 class="text-lg sm:text-2xl text-gray-600 mt-2 mb-8">
+                    Create your account
+                </h4>
+
+                <form autocomplete="off"
+                    action="/users/register"
+                    method="post"
+                    class="space-y-4">
+
+                    <input
+                        class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+                        type="text"
+                        placeholder="Full Name"
+                        name="name">
+
+                    <input
+                        class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+                        type="email"
+                        placeholder="Email"
+                        name="email">
+
+                    <input
+                        class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+                        type="password"
+                        placeholder="Password"
+                        name="password">
+
+                    <button
+                        class="w-full sm:w-auto px-8 py-3 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-full shadow-md hover:shadow-xl transition-all duration-300">
+
+                        Create My Account
+
+                    </button>
+
+                </form>
+
             </div>
-            <script>
-                setTimeout(() => {
-                    const flash = document.getElementById('flashMessage');
 
-                    if (flash) {
-                        flash.style.transition = 'opacity 0.5s ease';
-                        flash.style.opacity = '0';
+            <!-- Login Section -->
+            <div class="bg-gray-100 p-8 sm:p-10 lg:p-14 flex items-center">
 
-                        setTimeout(() => {
-                            flash.remove();
-                        }, 500);
-                    }
-                }, 3000);
-            </script>
-            <%- include('./partials/footer') %>
+                <div class="w-full max-w-md mx-auto">
+
+                    <h4 class="text-2xl sm:text-3xl text-center font-semibold mb-8">
+                        Login Your Account
+                    </h4>
+
+                    <form autocomplete="off"
+                        action="/users/login"
+                        method="post"
+                        class="space-y-4">
+
+                        <input
+                            class="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+                            type="email"
+                            placeholder="Email"
+                            name="email">
+
+                        <input
+                            class="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+                            type="password"
+                            placeholder="Password"
+                            name="password">
+
+                        <button
+                            class="w-full sm:w-auto px-8 py-3 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-full shadow-md hover:shadow-xl transition-all duration-300">
+
+                            Login
+
+                        </button>
+
+                    </form>
+
+                    <div class="text-center mt-6">
+
+                        <a class="text-blue-700 hover:text-blue-900 underline"
+                            href="/owners/create">
+
+                            Create admin account
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+setTimeout(() => {
+    const flash = document.getElementById("flashMessage");
+
+    if (flash) {
+        flash.style.transition = "opacity 0.5s ease";
+        flash.style.opacity = "0";
+
+        setTimeout(() => flash.remove(), 500);
+    }
+}, 3000);
+</script>
+
+<%- include('./partials/footer') %>
