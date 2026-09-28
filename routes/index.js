@@ -3,7 +3,6 @@ const productModel = require('../models/productModel');
 const userModel = require('../models/userModel');
 const ownerModel=require('../models/ownerModel');
 const router=express.Router();
-const flash=require('connect-flash');
 const isLoggedIn=require('../middleware/isLoggedIn');
 const countTotal=require('../middleware/countTotal');
 

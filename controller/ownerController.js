@@ -1,5 +1,4 @@
 const ownerModel=require('../models/ownerModel');
-const userModel=require('../models/userModel');
 const {generateToken}=require('../middleware/generateToken');
 const bcrypt=require('bcrypt');
 

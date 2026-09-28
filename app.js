@@ -1,3 +1,5 @@
+require('dotenv').config();
+require("./config/mongoose-connection");
 const cookieParser = require('cookie-parser');
 const express=require('express');
 const path=require('path');
@@ -9,7 +11,7 @@ const indexRouter=require('./routes/index');
 const expressSession=require('express-session');
 const productsRouter=require('./routes/productsRouter');
 const accountRouter=require('./routes/accountRouter');
-require('dotenv').config();
+
 const port=3000;
 
 app.set('view engine','ejs');

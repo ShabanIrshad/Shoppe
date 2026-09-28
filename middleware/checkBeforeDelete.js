@@ -1,4 +1,4 @@
-const ownerModel=require('../models/ownerModel');
+
 
  const checkBeforeDelete=async (req,res,next)=>{
     const adminProducts = req.user.products;
