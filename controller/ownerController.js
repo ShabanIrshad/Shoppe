@@ -4,7 +4,6 @@ const {generateToken}=require('../middleware/generateToken');
 const bcrypt=require('bcrypt');
 
 const createAdmin=(req,res)=>{
-    req.flash('error',"");
     res.render('createAdmin',{error:req.flash('error'),loggedIn:false});
 }
 
