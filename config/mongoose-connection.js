@@ -1,12 +1,11 @@
-const mongoose=require('mongoose');
-const dbgr=require('debug')("development:mongoose");
-require('dotenv').config();
+const mongoose = require("mongoose");
+require("dotenv").config();
 
-console.log("URI exists:", !!config.get("MONGODB_URI"));
+console.log("URI exists:", !!process.env.MONGODB_URI);
 
-mongoose.connect(`${process.env.MONGODB_URI}`)
-.then(()=>dbgr('Connected!')).catch((err)=>{
-    dbgr(err);
-})
+mongoose
+  .connect(process.env.MONGODB_URI)
+  .then(() => console.log("MongoDB Connected"))
+  .catch((err) => console.error("MongoDB Error:", err));
 
-module.exports=mongoose.connection;
+module.exports = mongoose.connection;
