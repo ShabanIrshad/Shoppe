@@ -1,124 +1,218 @@
 <%- include('./partials/header',{acc:profile,active:'account',cart}) %>
 
-<div class="h-screen flex justify-center bg-zinc-100">
-    <div class="border flex border-blue-500 h-[100%] w-[80%]">
-        <div class="border border-red-500 w-[30%]">
-            <div class="w-[150px]  h-[150px] rounded-[50%] bg-white m-auto mt-2 shadow-md">
-               <% if (profile.picture) { %>
-                    <img class="rounded-[50%]" src="data:image/png;base64,<%= profile.picture.toString('base64') %>" />
-                <% } else { %>
-                    <img class="rounded-[50%]" src="/images/boy.png" />
-                <% } %>
+<hr>
+
+<div class="min-h-screen bg-zinc-100 py-4">
+
+    <div class="max-w-7xl mx-auto px-4">
+
+        <!-- Main Layout -->
+        <div class="flex flex-col lg:flex-row gap-6">
+
+            <!-- Sidebar -->
+            <div class="w-full lg:w-[30%]">
+
+                <div class="bg-white rounded-2xl shadow-md p-5">
+
+                    <!-- Profile -->
+                    <div class="flex flex-col items-center">
+
+                        <div class="w-32 h-32 rounded-full overflow-hidden bg-gray-100 shadow">
+
+                            <% if (profile.picture) { %>
+                                <img class="w-full h-full object-cover"
+                                src="data:image/png;base64,<%= profile.picture.toString('base64') %>" />
+                            <% } else { %>
+                                <img class="w-full h-full object-cover"
+                                src="/images/boy.png" />
+                            <% } %>
+
+                        </div>
+
+                        <p class="mt-4 text-sm text-gray-600 break-all text-center">
+                            <%= profile.email %>
+                        </p>
+
+                    </div>
+
+                    <!-- Greeting -->
+                    <div class="bg-zinc-50 rounded-xl shadow-sm p-4 mt-6">
+
+                        <p class="text-gray-500 text-sm">Hello,</p>
+
+                        <p class="text-xl font-bold mt-1">
+                            <%= profile.name.toUpperCase() %>
+                        </p>
+
+                    </div>
+
+                    <!-- Menu -->
+                    <div class="mt-6 space-y-2">
+
+                        <div class="bg-white border rounded-lg p-3 hover:bg-blue-50 transition cursor-pointer">
+                            ACCOUNT SETTINGS
+                        </div>
+
+                        <div class="bg-white border rounded-lg p-3 hover:bg-blue-50 transition cursor-pointer">
+                            PAYMENTS
+                        </div>
+
+                        <div class="bg-white border rounded-lg p-3 hover:bg-blue-50 transition cursor-pointer">
+                            MY STUFFS
+                        </div>
+
+                        <div class="bg-white border rounded-lg p-3 hover:bg-blue-50 transition cursor-pointer">
+                            <%= (isAdmin)?'PRODUCTS':'ORDERS' %>
+                        </div>
+
+                        <a href="/users/logout"
+                           class="block bg-red-50 text-red-600 border border-red-200 rounded-lg p-3 hover:bg-red-100 transition font-medium">
+                            LOGOUT
+                        </a>
+
+                    </div>
+
+                </div>
+
             </div>
-            <p class="m-auto text-center mt-3"><%= profile.email %></p>
-            <div class="bg-white h-[80px] m-2 shadow-md p-3">
-                <p>Hello,</p>
-                <p class="text-xl m-2 font-bold"><%= profile.name.toUpperCase() %></p>
-            </div>
-             <div class="bg-white h-[40px] m-1 shadow-md p-2">
-               <h3>ACCOUNT SETTINGS</h3>
-            </div>
-              <div class="bg-white h-[40px] m-1 shadow-md p-2">
-               <h3>PAYMENTS</h3>
-            </div>
-              <div class="bg-white h-[40px] m-1 shadow-md p-2">
-               <h3>MY STUFFS</h3>
-            </div>
-             <div class="bg-white h-[40px] m-1 shadow-md p-2">
-               <h3><%= (isAdmin)?'PRODUCTS':'ORDERS' %></h3>
-            </div>
-              <div class="bg-white h-[40px] m-1 shadow-md p-2 hover:shadow-lg hover:font-bold">
-               <a href="/users/logout"><h3>LOGOUT</h3></a>
-            </div>
-        </div>
-        <div class="border border-pink-500 w-[70%] bg-white p-3">
-            <h3 class="h-[10%] text-3xl text-center font-bold">Your <%= (isAdmin)?'Proucts':'Orders' %></h3>
-            <div class="w-[100%] h-[90%] flex flex-wrap bg-blue-100 p-2 overflow-x-auto  overflow-y-auto">
-                <% if(isAdmin){ %>
-                    <% if(!!profile.products){ %>
-                        <% profile.products.forEach(function(product){ %>
-                        <div class="w-[25%] p-2">
-                            <div class="w-full h-52 flex items-center justify-center bg-[<%= product.bgcolor %>]">
-                                <img class="h-[12rem] overflow-hidden" src="data:image/jpeg;base64,<%= product.image.toString('base64') %>"
-                                    alt="">      
-                            </div>
-                            <div
-                                class="flex justify-between bg-[<%= product.panelcolor %>] items-center px-4 py-4 text-[<%= product.textcolor %>]">
-                                <div >
-                                    <h3 class="font-bold text-xl">
+
+            <!-- Orders Section -->
+            <div class="w-full lg:w-[70%] bg-white rounded-2xl shadow-md p-5">
+
+                <h3 class="text-2xl md:text-3xl text-center font-bold mb-6">
+                    Your <%= (isAdmin)?'Products':'Orders' %>
+                </h3>
+
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+
+                    <% if(isAdmin){ %>
+
+                        <% if(!!profile.products){ %>
+
+                            <% profile.products.forEach(function(product){ %>
+
+                                <div class="rounded-xl overflow-hidden shadow hover:shadow-xl transition">
+
+                                    <div class="aspect-square flex items-center justify-center bg-[<%= product.bgcolor %>] p-4">
+
+                                        <img class="max-h-44 object-contain"
+                                        src="data:image/jpeg;base64,<%= product.image.toString('base64') %>"
+                                        alt="">
+
+                                    </div>
+
+                                    <div class="bg-[<%= product.panelcolor %>] text-[<%= product.textcolor %>] p-3">
+
+                                        <h3 class="font-bold text-lg truncate">
+                                            <%= product.name %>
+                                        </h3>
+
+                                        <div class="flex items-center flex-wrap gap-2 mt-2">
+
+                                            <h4 class="font-bold <%= (product.discount>0)? 'line-through':'' %>">
+                                                ₹ <%= product.price %>
+                                            </h4>
+
+                                            <% if(product.discount>0){ %>
+
+                                                <span class="px-2 py-1 text-sm font-bold bg-[#85E695] rounded-md border border-[#20A837] text-[#0B661A]">
+                                                    <%= (product.price-product.discount) %>
+                                                </span>
+
+                                            <% } %>
+
+                                        </div>
+
+                                        <div class="mt-2">
+
+                                            <% if(!product.rating){ %>
+
+                                                <p>0.0⭐</p>
+
+                                            <% } else { %>
+
+                                                <p><%= product.rating %>⭐</p>
+
+                                            <% } %>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            <% }) %>
+
+                        <% } %>
+
+                    <% } %>
+
+                    <% if(!isAdmin){ %>
+
+                        <% profile.orders.forEach(function(product){ %>
+
+                            <div class="rounded-xl overflow-hidden shadow hover:shadow-xl transition">
+
+                                <div class="aspect-square flex items-center justify-center bg-[<%= product.bgcolor %>] p-4">
+
+                                    <img class="max-h-44 object-contain"
+                                    src="data:image/jpeg;base64,<%= product.image.toString('base64') %>"
+                                    alt="">
+
+                                </div>
+
+                                <div class="bg-[<%= product.panelcolor %>] text-[<%= product.textcolor %>] p-3">
+
+                                    <h3 class="font-bold text-lg truncate">
                                         <%= product.name %>
                                     </h3>
-                                    <div class="flex" >
-                                        <h4 class="font-bold <%= (product.discount>0)? 'line-through':'' %>">₹ <%= product.price %> </h4>
+
+                                    <div class="flex items-center flex-wrap gap-2 mt-2">
+
+                                        <h4 class="font-bold <%= (product.discount>0)? 'line-through':'' %>">
+                                            ₹ <%= product.price %>
+                                        </h4>
+
                                         <% if(product.discount>0){ %>
-                                            <h4 class="px-2 mx-2 font-bold bg-[#85E695] rounded-md border border-[#20A837] text-[#0B661A]"><%= (product.price-product.discount) %></h4>
+
+                                            <span class="px-2 py-1 text-sm font-bold bg-[#85E695] rounded-md border border-[#20A837] text-[#0B661A]">
+                                                <%= (product.price-product.discount) %>
+                                            </span>
+
                                         <% } %>
+
                                     </div>
-                                    <div>
-                                        <% if(!product.rating){%>
+
+                                    <div class="mt-2">
+
+                                        <% if(!product.rating){ %>
+
                                             <p>0.0⭐</p>
-                                        <% }else{ %>
+
+                                        <% } else { %>
+
                                             <p><%= product.rating %>⭐</p>
+
                                         <% } %>
-                                        
+
                                     </div>
-                                
-                                        
-                                    
-                                    
+
                                 </div>
-                            
+
                             </div>
-                            
-                        </div>
-                     <% })} %>
-                <%  } %>
-                    
-                
-                
-                <% if(!isAdmin){ %>
-                    <% profile.orders.forEach(function(product){ %>
-                        <div class="w-full">
-                        <div class="w-full h-52 flex items-center justify-center bg-[<%= product.bgcolor %>]">
-                            <img class="h-[12rem] overflow-hidden" src="data:image/jpeg;base64,<%= product.image.toString('base64') %>"
-                                alt="">
-                               
-                               
-                        </div>
-                        <div
-                            class="flex justify-between bg-[<%= product.panelcolor %>] items-center px-4 py-4 text-[<%= product.textcolor %>]">
-                            <div >
-                                <h3 class="font-bold text-xl">
-                                    <%= product.name %>
-                                </h3>
-                                <div class="flex" >
-                                     <h4 class="font-bold <%= (product.discount>0)? 'line-through':'' %>">₹ <%= product.price %> </h4>
-                                    <% if(product.discount>0){ %>
-                                        <h4 class="px-2 mx-2 font-bold bg-[#85E695] rounded-md border border-[#20A837] text-[#0B661A]"><%= (product.price-product.discount) %></h4>
-                                    <% } %>
-                                </div>
-                                <div>
-                                    <% if(!product.rating){%>
-                                        <p>0.0⭐</p>
-                                    <% }else{ %>
-                                        <p><%= product.rating %>⭐</p>
-                                    <% } %>
-                                    
-                                </div>
-                               
-                                    
-                                
-                                
-                            </div>
-                           
-                        </div>
-                        
-                    </div>
-                <%}) } %>
-               
+
+                        <% }) %>
+
+                    <% } %>
+
+                </div>
+
             </div>
+
         </div>
+
     </div>
+
 </div>
 
 <%- include('./partials/footer') %>
