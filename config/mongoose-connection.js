@@ -7,4 +7,4 @@ mongoose.connect(`${process.env.MONGODB_URI}/shoppe`)
     dbgr(err);
 })
 
-module.export=mongoose.connection;
+module.exports=mongoose.connection;
